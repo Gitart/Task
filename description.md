@@ -49,7 +49,7 @@ func Tasks(w http.ResponseWriter, rq *http.Request) {
 	   return
 	}
 
-    tags := []string{"(c) STARLIGHT","2017", "Department developin Software"}
+    tags := []string{"(c) SILVERSTAR","2017", "Department developin Software"}
     Dat  := Mst{"DATA": response, "HANDLE": tags, "Title": "Отчет о текущих задачах департамента разработки программного обеспечения"}
     Dat["Description"] = "Отчет  по загруженности отдела задачами"
 
