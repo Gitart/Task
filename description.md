@@ -62,3 +62,76 @@ func Tasks(w http.ResponseWriter, rq *http.Request) {
 }
 ```
 
+
+### Формирование шаблона динамически
+
+```golang
+/********************************************************************************************************************************
+ *
+ * Использование шаблонов
+ * http.HandleFunc("/api/system/report/",               GitInn)                        // Preview Report
+ *
+ *********************************************************************************************************************************/
+func GitInn(rp http.ResponseWriter, rq *http.Request) {
+
+	//  Structure
+	type Inventory struct {
+		Country string
+		Index   float64
+	}
+
+	sweaters := []Inventory{{"Head", 1}, {"Move", 2}, {"System", 3}}
+
+	sss := `<!DOCTYPE html>
+	            <htmL>
+	                <head>
+				          <title>Head Office</title>
+					      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+                          <style type="text/css">
+                                 html {color: #3B3B3B; font-size:15px; font-family:Calibri;}
+                                 td   {border:1px gray solid; padding:5px;}
+                                .hhd  {border:1px gray solid; padding:5px; background-color: #E7E7E7; font-weight: bold;}
+                                .hdsf {color: #3366FF;	font-weight: bold;	font-size:17px;}
+                          </style>
+  				    </head>
+
+	                <body>
+	                      <p>Результат фильтрации<p>
+	                      <br>
+	                      <table style='width: 300px; border:1px gray solid; border-collapse:collapse;'>
+
+                                              <tr>
+		                                          <td><b>Страна</b></td>
+		                                          <td><b>Коєф</b></td>
+
+		                                     </tr>
+	                             {{range .}}
+
+		                                     <tr>
+		                                          <td><b>{{printf "%s" .Country}}</b></td>
+		                                          <td><b>{{printf "%v" .Index}}</b></td>
+
+		                                     </tr>
+
+		                         {{end}}
+		                  </table>
+                    </body>
+                </html>`
+
+	tmpl, err := template.New("test").Parse(sss)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// yyy := tmpl.Execute(os.Stdout, sweaters)
+	err = tmpl.Execute(rp, sweaters)
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+
